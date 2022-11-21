@@ -1,8 +1,21 @@
 import React from 'react';
+import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const readPosts = () => {
+    axios.get(`http://localhost:3001/api/v1/posts`).then(
+      (response) => console.log(response)
+    ).catch(function (error) {}
+    ).finally(function () {}
+    );
+  };
+
+  React.useEffect(() => {
+    readPosts();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +31,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={() => readPosts()}>click me</button>
       </header>
     </div>
   );
