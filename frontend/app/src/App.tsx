@@ -1,38 +1,25 @@
-import React from 'react';
-import axios from 'axios';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { readAllPosts } from './apis/posts';
+import PostCard from './components/PostCard';
 import './App.css';
 
-function App() {
-  const readPosts = () => {
-    axios.get(`http://localhost:3001/api/v1/posts`).then(
-      (response) => console.log(response)
-    ).catch(function (error) {}
-    ).finally(function () {}
-    );
-  };
+const App = () => {
+  const [posts, setPosts] = useState([]);
 
-  React.useEffect(() => {
-    readPosts();
+  useEffect(() => {
+    readAllPosts().then((data) => {
+      setPosts(data);
+      console.log(data);
+    }).catch((e) => console.log(e));
   }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <button onClick={() => readPosts()}>click me</button>
-      </header>
+      <h1>Posts</h1>
+      <div className="cards">
+        { posts.map((post: any, index: number) => <PostCard post={post} />) }
+      </div>
+      <button onClick={() => readAllPosts().then((data)=> console.log(data))}>click me</button>
     </div>
   );
 }
