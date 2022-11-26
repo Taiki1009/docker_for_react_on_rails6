@@ -4,7 +4,9 @@ module Api
       before_action :set_post, only: %i[show destroy update]
 
       def index
-        posts = Post.all.order(:id)
+        limit = params[:limit]
+        offset = params[:offset]
+        posts = Post.all.limit(limit).offset(offset).order(:id)
         render json: posts, status: :ok
       end
 
