@@ -3,13 +3,13 @@ import { FormatDatetime } from '../utils/FormatDate';
 
 type PostCardsType = {
   post: PostType,
-  clickFunc: any
+  openModal: any
 }
 
-const PostCard = ({ post, clickFunc }: PostCardsType) => {
+const PostCard = ({ post, openModal }: PostCardsType) => {
   return (
-    <div onClick={() => clickFunc()}>
-      <section className="card" key={post.id}>
+    <div>
+      <section className="card" key={post.id} onClick={() => openModal()}>
         <div className="card-content">
           <h1 className="card-title">タイトル：{post.title}</h1>
           <p className="card-text">内容：{post.content}</p>
