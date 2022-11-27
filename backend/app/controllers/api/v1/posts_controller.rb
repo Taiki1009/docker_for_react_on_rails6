@@ -3,24 +3,20 @@ module Api
     class PostsController < ApplicationController
       before_action :set_post, only: %i[show destroy update]
 
+      # GET /api/v1/posts
       def index
-        limit = params[:limit]
-        offset = params[:offset]
-        posts = Post.all.limit(limit).offset(offset).order(:id)
-        render json: posts, status: :ok
+        get_response = Post::V1.list(params)
+        render json: get_response[:data], status: get_response[:status]
       end
 
       def show
         render json: @post, status: :ok
       end
 
+      # POST /api/v1/posts
       def create
-        post = Post.new(post_params)
-        if post.save
-          render json: post, status: :created
-        else
-          render json: post.errors, status: :internal_server_error
-        end
+        get_response = Post::V1.create(post_params)
+        render json: get_response[:data], status: get_response[:status]
       end
 
       def update

@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-// [FIXME] パラメータにlimitを受け取って取得件数を指定する
 // GET ALL
-export const readAllPosts = () => {
-  return axios.get(`${process.env.REACT_APP_DEFAULT_API_PATH}/posts`)
+export const readPostList = (limit: number = 4, offset: number = 0) => {
+  return axios.get(`${process.env.REACT_APP_DEFAULT_API_PATH}/posts?limit=${limit}&offset=${offset}`,)
   .then(res => {
     return res.data;
   })
   .catch((e) => {
-    console.log('-- readAllPosts --');
+    console.log('-- readPostList --');
     console.error(e);
   })
 }
@@ -28,7 +27,7 @@ export const readPost = (id: number) => {
 export const createPost = (title: string, content: string) => {
   return axios.post(`${process.env.REACT_APP_DEFAULT_API_PATH}/posts`,
     {
-      parameter: {
+      post: {
         title: title,
         content: content
       }
