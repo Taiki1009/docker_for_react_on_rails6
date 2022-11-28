@@ -9,7 +9,7 @@ type PostCardsType = {
 const PostCard = ({ post, openModal }: PostCardsType) => {
   return (
     <div>
-      <section className="card" key={post.id} onClick={() => openModal()}>
+      <section className="card" key={post.id} onClick={() => openModal(post)}>
         <div className="card-content">
           <h1 className="card-title">タイトル：{post.title}</h1>
           <p className="card-text">内容：{post.content}</p>

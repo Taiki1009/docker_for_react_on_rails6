@@ -12,6 +12,7 @@ const App = () => {
   const [postContent, setPostContent] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
+  const [openPost, setOpenPost] = useState(null as any);
   const [displayButton, setDisplayButton] = useState(true);
 
   // GET ALL
@@ -47,7 +48,7 @@ const App = () => {
   const deletePost = (id: string) => {
     return axios.delete(`${process.env.REACT_APP_DEFAULT_API_PATH}/posts/${id}`)
     .then(res => {
-      setPostList(postList.filter((post) => post.id !== id));
+      readPostList(postList.length -1);
       handleDisplayModal();
       console.log(res.data.status);
     }).catch((e) => {
@@ -56,7 +57,10 @@ const App = () => {
     })
   }
 
-  const handleDisplayModal = () => setOpenModal(!openModal);
+  const handleDisplayModal = (post: any = null) => {
+    setOpenPost(post);
+    setOpenModal(!openModal);
+  }
   const changePostTitle = (e: React.ChangeEvent<HTMLInputElement>) => setPostTitle(e.target.value);
   const changePostContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => setPostContent(e.target.value);
   const addTenPosts = () => readPostList(postList.length + 10);
@@ -68,7 +72,7 @@ const App = () => {
 
   return (
     <>
-      { openModal && <PostModal post={postList[0]} closeModal={handleDisplayModal} deletePost={deletePost} /> }
+      { openModal && <PostModal post={openPost} closeModal={handleDisplayModal} deletePost={deletePost} /> }
       <div className="App">
         <h1>Posts</h1>
         <div className="form">
