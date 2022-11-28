@@ -10,11 +10,30 @@ class Post < ApplicationRecord
       }
     end
 
+    def self.show(post)
+      { data: { results: post }, status: :ok }
+    end
+
     def self.create(request_params)
       post = Post.new(request_params)
-
       if post.save
         { data: { results: post }, status: :created }
+      else
+        { data: { results: post.errors }, status: :internal_server_error }
+      end
+    end
+
+    def self.update(post, request_params)
+      if post.update(request_params)
+        { data: { results: post }, status: :created }
+      else
+        { data: { results: post.errors }, status: :internal_server_error }
+      end
+    end
+
+    def self.destroy(post)
+      if post.destroy
+        { data: { results: post }, status: :ok }
       else
         { data: { results: post.errors }, status: :internal_server_error }
       end

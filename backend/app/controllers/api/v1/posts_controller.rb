@@ -10,7 +10,8 @@ module Api
       end
 
       def show
-        render json: @post, status: :ok
+        get_response = Post::V1.show(@post)
+        render json: get_response[:data], status: get_response[:status]
       end
 
       # POST /api/v1/posts
@@ -19,20 +20,16 @@ module Api
         render json: get_response[:data], status: get_response[:status]
       end
 
+      # PATCH /api/v1/posts/:id
       def update
-        if @post.update(post_params)
-          render json: @post, status: :created
-        else
-          render json: @post.errors, status: :internal_server_error
-        end
+        get_response = Post::V1.update(@post, post_params)
+        render json: get_response[:data], status: get_response[:status]
       end
 
+      # DELETE /api/v1/posts/:id
       def destroy
-        if @post.destroy
-          render json: @post, status: :ok
-        else
-          render json: @post.errors, status: :internal_server_error
-        end
+        get_response = Post::V1.destroy(@post)
+        render json: get_response[:data], status: get_response[:status]
       end
 
       private
